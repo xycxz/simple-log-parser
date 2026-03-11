@@ -16,7 +16,7 @@ find_package(Threads REQUIRED)
 add_library(logparser_ilogparser INTERFACE)
 target_include_directories(logparser_ilogparser INTERFACE ${IFACE_DIR})
 
-# Library for reusable components only
+# Library for reusable components
 add_library(LogEngine
     ${SRC_DIR}/apachelogparser.cpp
     ${SRC_DIR}/ipregistry.cpp
