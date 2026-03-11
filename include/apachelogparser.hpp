@@ -6,7 +6,7 @@
 class ApacheLogParser : public ILogParser {
 public:
     // Override for a particular implementation
-    std::string parseIP(const std::string& line) const override;
+    std::string parseIP(std::string_view line) const override;
 };
 
 #endif
