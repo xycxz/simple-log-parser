@@ -4,35 +4,43 @@
 #include <algorithm>
 
 void IPRegistry::recordIP(const std::string& ip) {
-    ipCounts[ip]++;
+    std::lock_guard<std::mutex> lock(registryMutex);
+    ipCounts[ip]++; // Critical section
 }
 
-int IPRegistry::getCount(const std::string& ip) const {
+SortedIPList IPRegistry::getSortedDataUnlocked() const {
+    // Transform the unordered map into a vector
+    // Critical Section down below
+    SortedIPList sortedList(ipCounts.begin(), ipCounts.end());
 
-    auto it = ipCounts.find(ip);
-    
-    // If the iterator reaches the 'end', the IP is not in records.
-    if (it == ipCounts.end()) {
-        return 0;
-    }
-    
-    // If found, return the value
-    return it->second; 
-}
-
-size_t IPRegistry::totalUniqueIPs() const {
-    return ipCounts.size();
-}
-
-void IPRegistry::printTopResults(int limit) const {
-    // Copy the map pairs to a vector to sort them by count
-    std::vector<std::pair<std::string, int>> vec(ipCounts.begin(), ipCounts.end());
-    std::sort(vec.begin(), vec.end(), [](const auto& a, const auto& b) {
-        return a.second > b.second; // Sort descending by count
+    // Sort the Data
+    std::sort(sortedList.begin(), sortedList.end(), [](const auto& a, const auto& b) {
+        return a.second > b.second; // Descending order
     });
 
-    std::cout << "\n--- Top " << limit << " IPs ---\n\n";
-    for (int i = 0; i < limit && i < vec.size(); ++i) {
-        std::cout << vec[i].first << " : " << vec[i].second << " requests\n";
+    return sortedList;
+}
+
+// Using this in case of adding future methods
+SortedIPList IPRegistry::getSortedData() const {
+    std::lock_guard<std::mutex> lock(registryMutex);
+    return getSortedDataUnlocked(); // Lock is already held
+}
+
+void IPRegistry::printResults(size_t limit) const {
+    // Get the pre-sorted data relevant properties
+    SortedIPList data = getSortedData();
+    size_t actualSize = data.size();
+
+    if (limit > actualSize) {
+
+        std::cerr << "Warning: Requested " << limit << " IPs, but only " 
+                  << actualSize << " unique IPs exist.\n";
+        limit = actualSize;
+    }
+
+    std::cout << "\n--- Displaying Top " << limit << " IPs ---\n";
+    for (size_t i = 0; i < limit; ++i) {
+        std::cout << data[i].first << " : " << data[i].second << " requests\n";
     }
 }
