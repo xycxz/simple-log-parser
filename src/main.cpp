@@ -10,15 +10,44 @@
 
 
 // Note: I will consider using a Thread Pool for performance!
-int main() {
+int main(int argc, char* argv[]) {
+
+    if (argc != 3) {
+        std::cerr << "Usage: log_analyzer <file_path> <top_n>\n";
+        return 1;
+    }
     
+    std::string filePath = argv[1];
+    size_t topN = 0;
+
     try {
-    
+
+        if (argv[2][0] == '-') {
+            std::cerr << "Error: <top_n> must be a positive number\n";
+            return 1;
+        }
+
+        topN = std::stoul(argv[2]);
+
+        if (topN == 0) {
+            std::cerr << "Error: <top_n> must be a positive number\n";
+            return 1;
+        }
+
+    } catch (const std::invalid_argument&) {
+        std::cerr << "Error: <top_n> must be a valid number\n";
+        return 1;
+
+    } catch (const std::out_of_range&) {
+        std::cerr << "Error: <top_n> is too large\n";
+        return 1;
+    }
+
+    try {
+
         ApacheLogParser parser;
         IPRegistry registry;
 
-        // Use a relative path based on where we assume the program is executed from
-        std::string filePath = "data/apache.log"; // Hardcoded on purpose
         std::ifstream logFile(filePath);
 
         // Verify the file exists and is accessible
@@ -64,7 +93,7 @@ int main() {
             task.get();
         }
 
-        registry.printResults(10);
+        registry.printResults(topN);
 
     } catch (const std::exception& e) {
         
