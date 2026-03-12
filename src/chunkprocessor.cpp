@@ -1,4 +1,4 @@
-#include "../include/chunkprocessor.hpp"
+#include "include/chunkprocessor.hpp"
 
 namespace LogProcessor {
     
