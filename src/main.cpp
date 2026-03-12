@@ -4,14 +4,15 @@
 #include <vector>
 #include <future>
 
-#include "../include/apachelogparser.hpp" 
-#include "../include/ipregistry.hpp"
-#include "../include/chunkprocessor.hpp"
+#include "include/apachelogparser.hpp" 
+#include "include/ipregistry.hpp"
+#include "include/chunkprocessor.hpp"
 
 
 // Note: I will consider using a Thread Pool for performance!
 int main(int argc, char* argv[]) {
 
+    // Logic to check the arguments passed by the user
     if (argc != 3) {
         std::cerr << "Usage: log_analyzer <file_path> <top_n>\n";
         return 1;

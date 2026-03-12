@@ -24,8 +24,12 @@ add_library(LogEngine
 )
 
 target_include_directories(LogEngine
-    PUBLIC  ${INC_DIR}
-    PRIVATE ${SRC_DIR}
+    PUBLIC  
+        ${INC_DIR} 
+        ${CMAKE_CURRENT_SOURCE_DIR}
+        
+    PRIVATE 
+        ${SRC_DIR}
 )
 
 target_link_libraries(LogEngine

@@ -1,4 +1,4 @@
-#include "../include/apachelogparser.hpp"
+#include "include/apachelogparser.hpp"
 
 std::string ApacheLogParser::parseIP(std::string_view line) const {
     // Find the position of the very first space character

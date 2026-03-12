@@ -1,7 +1,7 @@
 #ifndef APACHE_LOG_PARSER_HPP
 #define APACHE_LOG_PARSER_HPP
 
-#include "../interface/ilogparser.hpp"
+#include "interface/ilogparser.hpp"
 
 class ApacheLogParser : public ILogParser {
 public:
