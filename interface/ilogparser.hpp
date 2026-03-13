@@ -5,7 +5,7 @@
 class ILogParser {
 public:
     virtual ~ILogParser() = default;
-    // It takes a line and returns the extracted IP (The Essence)
+    // It takes a line and returns the extracted IP
     virtual std::string parseIP(std::string_view line) const = 0;
 };
 

@@ -45,6 +45,18 @@ cmake ..
 cmake --build .
 ```
 
+You can also do it automatically running the install bash script:
+
+```bash
+# Make the script executable
+chmod +x install.sh
+
+# Run the script
+./install.sh
+```
+
+**Note**: The script build the program inside the `build` directory as well.
+
 ## Usage
 
 Once we have our program compiled, it will be ready to run! We do so with the following command
