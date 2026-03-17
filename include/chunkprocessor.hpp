@@ -3,8 +3,8 @@
 
 #include <vector>
 #include <string>
-#include "../interface/ilogparser.hpp"
-#include "../include/ipregistry.hpp"
+#include "interface/ilogparser.hpp"
+#include "include/ipregistry.hpp"
 
 namespace LogProcessor {
     
